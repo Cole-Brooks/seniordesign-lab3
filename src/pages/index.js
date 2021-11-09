@@ -14,6 +14,9 @@ import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 
+// utils
+import { getEvents, updatedEvents } from "../utils/events"
+
 const locales = {
   "en-US": require("date-fns/locale/en-US")
 }
@@ -26,9 +29,8 @@ const localizer = dateFnsLocalizer({
   locales
 })
 
-const events = [
+var events = [
   {
-    id: 0,
     title: "Dummy Poll",
     allDay: false,
     start: new Date(2021,10,8,0,0), // not sure why but the month is indexed from zero?
@@ -36,15 +38,23 @@ const events = [
   }
 ]
 
-const IndexPage = () => (
+var eventsFromDatabase = []
+
+const IndexPage = () => {
+
+  React.useEffect(() => {
+    const promise = updatedEvents()
+    promise.then(updatedEventList => {
+      events = updatedEventList;
+    })
+    console.log(events)
+  }, [])
+
+  return (
   <Layout>
     <Seo title="Home" />
-
-    <div className = "App">
-      <Calendar localizer={localizer} events = {events} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
-    </div>
-
+    <Calendar localizer={localizer} events = {events} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
   </Layout>
-)
+)}
 
 export default IndexPage
