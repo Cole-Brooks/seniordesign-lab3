@@ -4,7 +4,6 @@ import { Link } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-// import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Navbar imports
 import ReactDOM from 'react-dom'
@@ -22,6 +21,8 @@ import Calendar from "./Calendar"
 import CreateEvent from "./CreateEvent"
 import Polls from "./Polls"
 import CreatePoll from "./CreatePoll"
+
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const events = [
   {
