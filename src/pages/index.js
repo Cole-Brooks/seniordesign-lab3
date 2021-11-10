@@ -17,7 +17,7 @@ import {
 import Navbar from "../components/Navbar"
 
 // Pages
-import Calendar from "./Calendar"
+import CashCalendar from "./CashCalendar"
 import CreateEvent from "./CreateEvent"
 import Polls from "./Polls"
 import CreatePoll from "./CreatePoll"
@@ -40,7 +40,7 @@ const IndexPage = () => (
     <Router>
       <main>
         <Routes>
-          <Route path="/" exact element={<Calendar/>} />
+          <Route path="/" exact element={<CashCalendar/>} />
           <Route path="/CreateEvent" exact element={<CreateEvent />} />
           <Route path="/Polls" exact element={<Polls/>} />
           <Route path="/CreatePoll" exact element={<CreatePoll/>} />
