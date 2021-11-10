@@ -5,26 +5,24 @@ import { StaticImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-// Calendar import stuff - learned from video BUILD A REACT JS CALENDAR APP - Darwin Tech
-import { Calendar, dateFnsLocalizer } from "react-big-calendar"; 
-import format from "date-fns/format";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
-import getDay from "date-fns/getDay";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import DatePicker from "react-datepicker";
+// Navbar imports
+import ReactDOM from 'react-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Redirect,
+  Switch
+} from 'react-router-dom'
+import Navbar from "../components/Navbar"
 
-const locales = {
-  "en-US": require("date-fns/locale/en-US")
-}
+// Pages
+import CashCalendar from "./CashCalendar"
+import CreateEvent from "./CreateEvent"
+import Polls from "./Polls"
+import CreatePoll from "./CreatePoll"
 
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales
-})
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const events = [
   {
@@ -39,11 +37,16 @@ const events = [
 const IndexPage = () => (
   <Layout>
     <Seo title="Home" />
-
-    <div className = "App">
-      <Calendar localizer={localizer} events = {events} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
-    </div>
-
+    <Router>
+      <main>
+        <Routes>
+          <Route path="/" exact element={<CashCalendar/>} />
+          <Route path="/CreateEvent" exact element={<CreateEvent />} />
+          <Route path="/Polls" exact element={<Polls/>} />
+          <Route path="/CreatePoll" exact element={<CreatePoll/>} />
+        </Routes>
+      </main>
+    </Router>
   </Layout>
 )
 
