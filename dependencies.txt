@@ -1,5 +1,0 @@
-STUFF THAT YOU NEED FOR DEV TO WORK:
-bootstrap - npm install bootstrap
-firebase - npm install -g firebase, npm install -g firebase-tools
-big calendar - npm install --save react-big-calendar
-react router dom - npm install --save react-router-dom
