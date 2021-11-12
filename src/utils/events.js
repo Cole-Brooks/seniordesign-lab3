@@ -37,9 +37,6 @@ const updatedEvents = async () =>{
     return returnArray 
 }
 
-// writeEvent takes all the parameters necessary for creating an event and writing it to the firestore database. example written below
-    // writeEvent("Event Title", [<s_year>,<s_month>,<s_day>,<s_hour>,<s_minute>],[<e_year>,<e_month>,<e_day>,<e_hour>,<e_minute>], attendees)
-
 /**
  * writeEvent:
  * creates a new event with the params passed to it and pushes that event to the database.
