@@ -49,7 +49,14 @@ const CashCalendar = () => {
 
   const handleSelected = (event) => {
     setSelected(event)
-    alert("You clicked on this event " + event['title'])
+
+    var people = ""
+    event['attendants'].forEach(person => {
+      people = people + person['name'] + ", "
+    })
+
+    alert("Event: " + event['title'] + "\r\nAttendants: " + people)
+    console.log(event['attendants'])
   };
 
   return (
