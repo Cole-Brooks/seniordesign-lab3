@@ -10,7 +10,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 // import DatePicker from "react-datepicker";
 
 // Utility Imports
-import { getEvents, updatedEvents } from "../utils/events"
+import { updatedEvents } from "../utils/events"
 
 const locales = {
   "en-US": require("date-fns/locale/en-US")
@@ -30,7 +30,7 @@ var events = [
     id: 0,
     title: "Dummy Poll",
     allDay: false,
-    start: new Date(2021,10,8,0,0), // not sure why but the month is indexed from zero?
+    start: new Date(2021,10,8,0,0), // Note that month index is from zero
     end: new Date(2021,10,8,10,0)
   }
 ]
@@ -40,7 +40,7 @@ const CashCalendar = () => {
 
   React.useEffect(() => {
     setEvents(updatedEvents())
-    const newEvents = updatedEvents().then(listOfEvents => {
+    updatedEvents().then(listOfEvents => {
       setEvents(listOfEvents)});
       console.log(calendar_events);
   },[])

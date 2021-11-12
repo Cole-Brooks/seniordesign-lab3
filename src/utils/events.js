@@ -1,14 +1,11 @@
 /**
  * handles CRUD operations on event objects
  */
-import {addDoc, collection} from "firebase/firestore"
 import {firestore} from "./firebase";
 
 // getEvents: returns unformatted data from database. Not very useful except as a helper to updatedEvents
 const getEvents = async () => {
-    // return (await firestore.collection("events").get()).docs;
     const snapshot = await firestore.collection("events").get()
-    // snapshot.docs.forEach(doc => console.log(doc.data()))
 
     return snapshot.docs
 }
