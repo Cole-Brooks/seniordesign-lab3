@@ -7,7 +7,10 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
+
+// Utility Imports
+import { getEvents, updatedEvents } from "../utils/events"
 
 const locales = {
   "en-US": require("date-fns/locale/en-US")
@@ -21,7 +24,7 @@ const localizer = dateFnsLocalizer({
   locales
 })
 
-const events = [
+var events = [
     // Note that these events will eventually come from a database instead of being hardcoded
   {
     id: 0,
@@ -33,11 +36,27 @@ const events = [
 ]
 
 const CashCalendar = () => {
-    return (
-        <div className = "calendar">
-            <Calendar localizer={localizer} events = {events} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
-        </div>
-    )
+  const [calendar_events, setEvents] = React.useState(events);
+
+  React.useEffect(() => {
+    setEvents(updatedEvents())
+    const newEvents = updatedEvents().then(listOfEvents => {
+      setEvents(listOfEvents)});
+      console.log(calendar_events);
+  },[])
+
+  const [selected, setSelected] = React.useState();
+
+  const handleSelected = (event) => {
+    setSelected(event)
+    alert("You clicked on this event " + event['title'])
+  };
+
+  return (
+      <div className = "calendar">
+          <Calendar localizer={localizer} events = {calendar_events} onSelectEvent={handleSelected} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
+      </div>
+  )
 }
 
 export default CashCalendar
