@@ -24,33 +24,24 @@ const localizer = dateFnsLocalizer({
   locales
 })
 
-var events = [
-    // Note that these events will eventually come from a database instead of being hardcoded
-  {
-    id: 0,
-    title: "Dummy Poll",
-    allDay: false,
-    start: new Date(2021,10,8,0,0), // Note that month index is from zero
-    end: new Date(2021,10,8,10,0)
-  }
-]
 
 const CashCalendar = () => {
-  const [calendar_events, setEvents] = React.useState(events);
+  const [calendar_events, setEvents] = React.useState([]);
 
   React.useEffect(() => {
-    setEvents(updatedEvents());
+    // setEvents(updatedEvents());
     updatedEvents().then(listOfEvents => {
       setEvents(listOfEvents)});
       console.log(calendar_events);
-  },[])
+      console.log(1);
+  }, []);
 
   const [selected, setSelected] = React.useState();
 
   const handleSelected = (event) => {
     setSelected(event);
 
-    var people = ""
+    let people = ""
     event['attendants'].forEach(person => {
       people = people + person['name'] + ", ";
     })
@@ -61,7 +52,7 @@ const CashCalendar = () => {
 
   return (
       <div className = "calendar">
-          <Calendar localizer={localizer} events = {calendar_events} onSelectEvent={handleSelected} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
+          <Calendar localizer={localizer} events={calendar_events} onSelectEvent={handleSelected} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
       </div>
   )
 }
