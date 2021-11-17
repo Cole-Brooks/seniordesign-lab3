@@ -39,7 +39,7 @@ const CashCalendar = () => {
   const [calendar_events, setEvents] = React.useState(events);
 
   React.useEffect(() => {
-    setEvents(updatedEvents())
+    setEvents(updatedEvents());
     updatedEvents().then(listOfEvents => {
       setEvents(listOfEvents)});
       console.log(calendar_events);
@@ -48,15 +48,15 @@ const CashCalendar = () => {
   const [selected, setSelected] = React.useState();
 
   const handleSelected = (event) => {
-    setSelected(event)
+    setSelected(event);
 
     var people = ""
     event['attendants'].forEach(person => {
-      people = people + person['name'] + ", "
+      people = people + person['name'] + ", ";
     })
 
-    alert("Event: " + event['title'] + "\r\nAttendants: " + people)
-    console.log(event['attendants'])
+    alert("Event: " + event['title'] + "\r\nAttendants: " + people);
+    console.log(event['attendants']);
   };
 
   return (
