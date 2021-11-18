@@ -95,6 +95,7 @@ const CreatePoll = () => {
             maxVotePerPerson: maxVotePerPerson,
             voteInfo: optArr.filter(opt => opt.length !== 0),
             deadLine: timeConverter(new Date(deadLine.getTime()), timeZone),
+            status: "unPublished"
         };
         console.log(newPoll);
         writePoll(newPoll);

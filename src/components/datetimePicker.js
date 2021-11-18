@@ -12,6 +12,7 @@ export default function BasicDateTimePicker(props) {
       <DateTimePicker
         renderInput={(props) => <TextField {...props} />}
         label="DeadLine"
+        readOnly={props.readOnly !== undefined}
         value={deadLine}
         onChange={(newValue) => {
           setDeadLine(newValue);

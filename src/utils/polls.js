@@ -32,6 +32,7 @@ const updatedPolls = async () =>{
                     voteInfo: data['voteInfo'],
                     maxVotePerPerson: data['maxVotePerPerson'],
                     deadLine: data['deadLine'].toDate(),
+                    status: data['status'],
                     docId: poll.id // to be used for updates and deletes
                 };
             returnArray.push(e);
@@ -48,7 +49,7 @@ const updatedPolls = async () =>{
  * @param {array} voteInfo : an array of options that users may vote for - [optionA, optionB, ... optionN]
  */
 async function writePoll(p){
-    const {title, desc, notes, maxVotePerPerson, voteInfo, deadLine} = p;
+    const {title, desc, notes, maxVotePerPerson, voteInfo, deadLine, status} = p;
     console.log("attempting to write to db");
     const optionsJson = {};
 
@@ -59,7 +60,8 @@ async function writePoll(p){
         notes: notes,
         voteInfo: optionsJson,
         maxVotePerPerson: maxVotePerPerson,
-        deadLine: firebase.firestore.Timestamp.fromDate(deadLine)
+        deadLine: firebase.firestore.Timestamp.fromDate(deadLine),
+        status: status
     };
     firestore.collection("polls").add(data)
         .then((docRef) => console.log("Document written with ID: ", docRef.id))
