@@ -10,51 +10,51 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 // import DatePicker from "react-datepicker";
 
 // Utility Imports
-import { updatedEvents } from "../utils/events"
+import { updatedEvents } from "../utils/events";
 
 const locales = {
-  "en-US": require("date-fns/locale/en-US")
-}
+    "en-US": require("date-fns/locale/en-US")
+};
 
 const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales
-})
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    locales
+});
 
 
 const CashCalendar = () => {
-  const [calendar_events, setEvents] = React.useState([]);
+    const [calendar_events, setEvents] = React.useState([]);
 
-  React.useEffect(() => {
-    // setEvents(updatedEvents());
-    updatedEvents().then(listOfEvents => {
-      setEvents(listOfEvents)});
-      console.log(calendar_events);
-      console.log(1);
-  }, []);
+    React.useEffect(() => {
+        // setEvents(updatedEvents());
+        updatedEvents().then(listOfEvents => {
+            setEvents(listOfEvents)});
+            console.log(calendar_events);
+            console.log(1);
+    }, []);
 
-  const [selected, setSelected] = React.useState();
+    const [selected, setSelected] = React.useState();
 
-  const handleSelected = (event) => {
-    setSelected(event);
+    const handleSelected = (event) => {
+        setSelected(event);
 
-    let people = ""
-    event['attendants'].forEach(person => {
-      people = people + person['name'] + ", ";
-    })
+        let people = "";
+        event['attendants'].forEach(person => {
+            people = people + person['name'] + ", ";
+        });
 
-    alert("Event: " + event['title'] + "\r\nAttendants: " + people);
-    console.log(event['attendants']);
-  };
+        alert("Event: " + event['title'] + "\r\nAttendants: " + people);
+        console.log(event['attendants']);
+    };
 
-  return (
-      <div className = "calendar">
-          <Calendar localizer={localizer} events={calendar_events} onSelectEvent={handleSelected} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
-      </div>
-  )
+    return (
+        <div className = "calendar">
+            <Calendar localizer={localizer} events={calendar_events} onSelectEvent={handleSelected} startAccessor={"start"} endAccessor={"end"} style = {{height:750, margin: "25px"}} />
+        </div>
+    );
 }
 
-export default CashCalendar
+export default CashCalendar;

@@ -1,7 +1,9 @@
 /**
  * handles CRUD operations on poll objects
+ * https://stackoverflow.com/questions/55714631/firestore-timestamp-fromdate-not-utc
  */
 import {firestore} from "./firebase";
+import firebase from "firebase/app";
 
 // getPolls: returns unformatted data from database. Not very useful except as a helper to updatedPolls
 // NOTE: THIS IS A HELPER FUNCTION, DON'T EXPORT IT
@@ -29,7 +31,7 @@ const updatedPolls = async () =>{
                     notes: data['notes'],
                     voteInfo: data['voteInfo'],
                     maxVotePerPerson: data['maxVotePerPerson'],
-                    UTCdl: data['UTC_deadline'],
+                    deadLine: data['deadLine'].toDate(),
                     docId: poll.id // to be used for updates and deletes
                 };
             returnArray.push(e);
@@ -46,7 +48,7 @@ const updatedPolls = async () =>{
  * @param {array} voteInfo : an array of options that users may vote for - [optionA, optionB, ... optionN]
  */
 async function writePoll(p){
-    const {title, desc, notes, maxVotePerPerson, voteInfo, UTCdl} = p;
+    const {title, desc, notes, maxVotePerPerson, voteInfo, deadLine} = p;
     console.log("attempting to write to db");
     const optionsJson = {};
 
@@ -57,7 +59,7 @@ async function writePoll(p){
         notes: notes,
         voteInfo: optionsJson,
         maxVotePerPerson: maxVotePerPerson,
-        UTC_deadline: UTCdl
+        deadLine: firebase.firestore.Timestamp.fromDate(deadLine)
     };
     firestore.collection("polls").add(data)
         .then((docRef) => console.log("Document written with ID: ", docRef.id))
