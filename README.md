@@ -1,4 +1,5 @@
-# Team CASH: Laboratory #2 ECE:4880 - Senior Design
+<img src="gh_img/TeamCashHeader.png"></img>
+# Laboratory #2 ECE:4880 - Senior Design
 Contributors: Cole Brooks, Hongyu Zeng, Ann Thomas, Steve Wasiswa
 
 ### Project Motivation
