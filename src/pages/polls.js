@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 
 import VotePollButton from '../components/ViewPollButton';
-import { updatedPolls } from '../utils/polls';
+import { updatedPolls, convertPoll } from '../utils/polls';
 import BasicDateTimePicker from '../components/datetimePicker';
 
 const columns = [
@@ -45,14 +45,14 @@ const columns = [
 ];
 
 function createData(rawData) {
-    const {title, desc, deadLine: dl, status, voteInfo} = rawData;
+    const {deadLine: dl} = rawData;
     console.log(dl);
     const actions = <VotePollButton />;
     const deadLine = (
         <BasicDateTimePicker deadLine={dl} setDeadLine={() => (null)} readOnly={true} />
     );
     console.log(deadLine);
-    return { title, desc, deadLine: deadLine, status, actions };
+    return {...rawData, deadLine: deadLine, actions };
 }
 
   
@@ -61,27 +61,34 @@ function StickyHeadTable() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const tmp = new Date();
     const [rows, setRows] = useState([
-        createData({
-            desc: "what to eat",
-            docId: "RvBEVyCSxqJEu15huvtT",
-            maxVotePerPerson: 2,
-            notes: "hungry",
-            status: "unPublished",
-            title: "morning",
-            deadLine: tmp
-        })
+        // createData({
+        //     desc: "what to eat",
+        //     docId: "RvBEVyCSxqJEu15huvtT",
+        //     maxVotePerPerson: 2,
+        //     notes: "hungry",
+        //     status: "unPublished",
+        //     title: "morning",
+        //     deadLine: tmp
+        // })
     ]);
+    const [btn, setBtn] = useState(1);
 
-    // useEffect(() => {
-    //     updatedPolls()
-    //         .then(res => {
-    //             console.log(res);
-    //             setRows(res)
-    //         })
-    //         .catch(err => {
-    //             alert("Cannot fetch data");
-    //         });
-    // }, []);
+    useEffect(() => {
+        updatedPolls()
+            .then(listOfPolls => {
+                let returnArray = [];
+                // console.log(res);
+                listOfPolls.forEach(poll => {
+                    let e = convertPoll(poll);
+                    returnArray.push(createData(e));
+                }); 
+                console.log(returnArray);
+                setRows(returnArray);
+            })
+            .catch(err => {
+                alert("Cannot fetch data");
+            });
+    }, []);
 
 
     const handleChangePage = (event, newPage) => {
@@ -95,6 +102,10 @@ function StickyHeadTable() {
   
     return (
       <Paper sx={{ width: '100%', overflow: 'auto' }}>
+          {/* <p>{rows.length}</p>
+          <button onClick={() => {setBtn(btn + 1)}}>
+            clickMe
+          </button> */}
         <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -115,7 +126,7 @@ function StickyHeadTable() {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
                             return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.title + row.desc + row.status}>
+                                <TableRow hover role="checkbox" tabIndex={-1} key={row.docId}>
                                     {columns.map((column) => {
                                         const value = row[column.id];
                                         return (

@@ -18,29 +18,43 @@ const getPolls = async () => {
  * @returns {array} returnArray : all the polls in the database, formated as they're needed for the calendar
  */
 const updatedPolls = async () =>{
-    const promise = getPolls();
-    let returnArray = [];
-    promise.then(listOfPolls => {
-        listOfPolls.forEach(poll => {
+    // const promise = getPolls();
+    // let returnArray = [];
+    // promise.then(listOfPolls => {
+    //     listOfPolls.forEach(poll => {
 
-            const data = poll.data();
+    //         const data = poll.data();
 
-            let e = {
-                    title: data['title'],
-                    desc: data['desc'],
-                    notes: data['notes'],
-                    voteInfo: data['voteInfo'],
-                    maxVotePerPerson: data['maxVotePerPerson'],
-                    deadLine: data['deadLine'].toDate(),
-                    status: data['status'],
-                    docId: poll.id // to be used for updates and deletes
-                };
-            returnArray.push(e);
-        }); 
-    });
-    return returnArray;
+    //         let e = {
+    //                 title: data['title'],
+    //                 desc: data['desc'],
+    //                 notes: data['notes'],
+    //                 voteInfo: data['voteInfo'],
+    //                 maxVotePerPerson: data['maxVotePerPerson'],
+    //                 deadLine: data['deadLine'].toDate(),
+    //                 status: data['status'],
+    //                 docId: poll.id // to be used for updates and deletes
+    //             };
+    //         returnArray.push(e);
+    //     }); 
+    // });
+    // return returnArray;
+    return getPolls();
 }
 
+const convertPoll = (poll) => {
+    const data = poll.data();
+    return {
+        title: data['title'],
+        desc: data['desc'],
+        notes: data['notes'],
+        voteInfo: data['voteInfo'],
+        maxVotePerPerson: data['maxVotePerPerson'],
+        deadLine: data['deadLine'].toDate(),
+        status: data['status'],
+        docId: poll.id // to be used for updates and deletes
+    };
+}
 /**
  * writePoll:
  * creates a new poll with the params passed to it and pushes that poll to the database.
@@ -103,4 +117,4 @@ async function deletePoll(document_id) {
     });
 }
  
-export { updatedPolls, writePoll, changePollVotes, deletePoll };
+export { updatedPolls, writePoll, changePollVotes, deletePoll, convertPoll };
