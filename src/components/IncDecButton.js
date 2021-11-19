@@ -2,25 +2,26 @@ import React, { useState } from 'react';
 import { ButtonGroup, Button } from '@mui/material';
 // https://stackoverflow.com/questions/59305603/increment-and-decrement-button-via-material-ui-buttongroup 
 export default function IncDecButton(props) {
-  const { minNumOption, maxNumOption, cbFunc } = props;
+    const { minNumOption, votesLeft, cbFunc, idx} = props;
+    const [count, setCount] = useState(minNumOption);
 
-  const [count, setCount] = useState(minNumOption);
+    const handleIncrement = () => {
+        const newVal = count + 1;
+        setCount(newVal);
+        cbFunc(idx, newVal);
+    };
 
-  const handleIncrement = () => {
-    setCount(count + 1);
-    cbFunc(count + 1);
-  };
+    const handleDecrement = () => {
+        const newVal = count - 1;
+        setCount(newVal);
+        cbFunc(idx, newVal);
+    };
 
-  const handleDecrement = () => {
-    setCount(count - 1);
-    cbFunc(count + 1);
-  };
-
-  return (
-    <ButtonGroup size="small" aria-label="small outlined button group">
-      {<Button onClick={handleIncrement} disabled={count >= maxNumOption}>+</Button> }
-      <Button disabled color="info">{count}</Button>
-      {<Button onClick={handleDecrement} disabled={count <= minNumOption}>-</Button> }
-    </ButtonGroup>
-  );
+    return (
+        <ButtonGroup size="small" aria-label="small outlined button group">
+        {<Button onClick={handleIncrement} disabled={votesLeft <= 0}>+</Button> }
+        <Button disabled color="info">{count}</Button>
+        {<Button onClick={handleDecrement} disabled={count <= minNumOption}>-</Button> }
+        </ButtonGroup>
+    );
 }

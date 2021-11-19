@@ -17,7 +17,7 @@ import {
     TextField
 } from '@mui/material';
 
-import VotePollButton from '../components/ViewPollButton';
+import VotePollButton from '../components/VotePollButton';
 import { updatedPolls, convertPoll } from '../utils/polls';
 import BasicDateTimePicker from '../components/datetimePicker';
 
@@ -47,11 +47,10 @@ const columns = [
 function createData(rawData) {
     const {deadLine: dl} = rawData;
     console.log(dl);
-    const actions = <VotePollButton />;
+    const actions = <VotePollButton rawData={rawData}/>;
     const deadLine = (
         <BasicDateTimePicker deadLine={dl} setDeadLine={() => (null)} readOnly={true} />
     );
-    console.log(deadLine);
     return {...rawData, deadLine: deadLine, actions };
 }
 
@@ -71,7 +70,6 @@ function StickyHeadTable() {
         //     deadLine: tmp
         // })
     ]);
-    const [btn, setBtn] = useState(1);
 
     useEffect(() => {
         updatedPolls()
