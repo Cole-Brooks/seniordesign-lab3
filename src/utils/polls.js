@@ -2,12 +2,14 @@
  * handles CRUD operations on poll objects
  * https://stackoverflow.com/questions/55714631/firestore-timestamp-fromdate-not-utc
  */
+
 import {firestore} from "./firebase";
 import firebase from "firebase/app";
 
 // getPolls: returns unformatted data from database. Not very useful except as a helper to updatedPolls
 // NOTE: THIS IS A HELPER FUNCTION, DON'T EXPORT IT
 const getPolls = async () => {
+
     const snapshot = await firestore.collection("polls").get();
     return snapshot.docs;
 }
