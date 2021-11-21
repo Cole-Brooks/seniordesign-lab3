@@ -10,7 +10,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 // import DatePicker from "react-datepicker";
 
 // Utility Imports
-import { updatedEvents } from "../utils/events";
+import { updatedEvents, convertEvents } from "../utils/events";
 
 const locales = {
     "en-US": require("date-fns/locale/en-US")
@@ -30,10 +30,18 @@ const CashCalendar = () => {
 
     React.useEffect(() => {
         // setEvents(updatedEvents());
-        updatedEvents().then(listOfEvents => {
-            setEvents(listOfEvents)});
-            console.log(calendar_events);
-            console.log(1);
+        updatedEvents()
+            .then(listOfEvents => {
+                let returnArray = [];
+                listOfEvents.forEach(event => {
+                    let e = convertEvents(event);
+                    returnArray.push(e);
+                });
+                setEvents(returnArray);
+            })
+            .catch(err => {
+                alert("Error fetching Events!");
+            })
     }, []);
 
     const [selected, setSelected] = React.useState();

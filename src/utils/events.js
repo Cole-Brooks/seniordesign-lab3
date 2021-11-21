@@ -15,26 +15,40 @@ const getEvents = async () => {
  * @returns {array} returnArray : all the events in the database, formated as they're needed for the calendar
  */
 const updatedEvents = async () =>{
-    const promise = getEvents();
-    let returnArray = [];
-    promise.then(listOfEvents => {
-        listOfEvents.forEach(event => {
+    // const promise = getEvents();
+    // let returnArray = [];
+    // promise.then(listOfEvents => {
+    //     listOfEvents.forEach(event => {
 
-            const data = event.data();
+    //         const data = event.data();
 
-            let e = {
-                    title: data['title'],
-                    start: new Date(data['start'][0], data['start'][1], data['start'][2], data['start'][3]),
-                    end: new Date(data['end'][0], data['end'][1], data['end'][2], data['end'][3]),
-                    allDay: data['allDay'],
-                    attendants: data['attendants'],
-                    docId: event.id // to be used for updates and deletes
-                };
+    //         let e = {
+    //                 title: data['title'],
+    //                 start: new Date(data['start'][0], data['start'][1], data['start'][2], data['start'][3]),
+    //                 end: new Date(data['end'][0], data['end'][1], data['end'][2], data['end'][3]),
+    //                 allDay: data['allDay'],
+    //                 attendants: data['attendants'],
+    //                 docId: event.id // to be used for updates and deletes
+    //             };
 
-            returnArray.push(e);
-        }); 
-    });
-    return returnArray;
+    //         returnArray.push(e);
+    //     }); 
+    // });
+    // return returnArray;
+    return getEvents();
+}
+
+const convertEvents = (e) => {
+    const data = e.data();
+
+    return {
+        title: data['title'],
+        start: new Date(data['start'][0], data['start'][1], data['start'][2], data['start'][3]),
+        end: new Date(data['end'][0], data['end'][1], data['end'][2], data['end'][3]),
+        allDay: data['allDay'],
+        attendants: data['attendants'],
+        docId: e.id // to be used for updates and deletes
+    };
 }
 
 /**
@@ -90,12 +104,12 @@ async function changeEventTimes(document_id, new_start, new_end){
         start: new_start,
         end: new_end
     }).then(() => {
-        console.log("event time successfully changed")
-        return 1
+        console.log("event time successfully changed");
+        return 1;
     }).catch((error) => {
-        console.error("database error occurred: ", error)
-        return 0
-    })
+        console.error("database error occurred: ", error);
+        return 0;
+    });
 }
 
 /**
@@ -104,14 +118,14 @@ async function changeEventTimes(document_id, new_start, new_end){
  * @returns {number} : 0 on database failure, 1 on successful delete or if no event with the specified document id is found
  */
 async function deleteEvent(document_id){
-    console.log("attempting to delete from db")
-    firestore.collection("events").doc(document_id).delete().then(() =>{
-        console.log("Event deleted successfully")
-        return 1
+    console.log("attempting to delete from db");
+    firestore.collection("events").doc(document_id).delete().then(() => {
+        console.log("Event deleted successfully");
+        return 1;
     }).catch((error) => {
-        console.error("Error deleting the document: ", error)
-        return 0
-    })
+        console.error("Error deleting the document: ", error);
+        return 0;
+    });
 }
 
-export { updatedEvents, writeEvent, changeEventAttendants,changeEventTimes, deleteEvent}
+export { updatedEvents, writeEvent, changeEventAttendants,changeEventTimes, deleteEvent, convertEvents};
