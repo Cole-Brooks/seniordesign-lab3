@@ -4,30 +4,28 @@ import Seo from "../components/seo"
 
 import Navbar from "../components/Navbar"
 
+import {firestore} from "../utils/firebase"
+
+
+
+// const db = firestore.database();
+
 class CreateEvent extends React.Component {
 
     constructor(props) {
         super(props);
-        // this.state = {value: ''};
-    
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
             eventTitle:"",
             eventDate:"",
-            eventTime:""
+            startTime:"",
+            endTime:""
         }
       }
 
 
      handleSubmit(item,type){
-        
-        // var jFirst = document.getElementById("eventTitle").value;
-        // var jLast = document.getElementById("eventDate").value;
-        // alert(this.state.value);
-        // e.preventDefault();
-        
+
         let itemValue = item.target.value;
         switch(type){
             case "eventTitle" :{
@@ -36,11 +34,15 @@ class CreateEvent extends React.Component {
             case "eventDate" :{
                 this.setState({eventDate: itemValue}); 
             }
-            case "eventTime" :{
-                this.setState({eventTime: itemValue}); 
+            case "startTime" :{
+                this.setState({startTime: itemValue}); 
+            }
+            case "endTime" :{
+                this.setState({endTime: itemValue}); 
             }
            
         }
+
         console.log("all",this.state)
      }
 
@@ -48,14 +50,33 @@ class CreateEvent extends React.Component {
          let obj = {};
          obj.eventTitle = this.state.eventTitle;
          obj.eventDate = this.state.eventDate;
-         obj.eventTime = this.state.eventTime;
+         obj.startTime = this.state.startTime;
+         obj.endTime = this.state.endTime;
          console.log("submit data", obj);
+
+         alert("Event " + obj.eventTitle + " has been created!");
+
+        //  const titleRef = db.ref("events");
+        //  const newTitleRef = titleRef.push();
+        //  newTitleRef.set({
+        //     title: obj.eventTitle
+
+        //  })
+
+        console.log("start time: " + obj.eventDate.slice(0,4));
+    
+        firestore.collection("events").add({
+            
+            start : 
+            [
+                parseInt(obj.eventDate.slice(0,4))
+            ],
+            title : obj.eventTitle
+
+            });
 
      }
 
-    //  handleChange(e) {
-    //     this.setState({value: e.target.value});
-    //   }
 
     render(){
         return (
@@ -66,13 +87,14 @@ class CreateEvent extends React.Component {
                 <main>
                     <h1> Create Event </h1>
                 
-                    <input type="text" placeHolder="Event Title" onChange={(item)=>this.handleSubmit(item,"eventTitle")}></input><br></br>
-                    
+                    <input type="text" id="eventTitle" placeHolder="Event Title" onChange={(item)=>this.handleSubmit(item,"eventTitle")}></input><br></br>
+                    <label>Event Date: </label>
                     <input type="date" placeHolder="Event Date" onChange={(item)=>this.handleSubmit(item,"eventDate")}></input><br></br>
-                    
-                    <input type="time" placeHolder="Event Time" onChange={(item)=>this.handleSubmit(item,"eventTime")}></input><br></br>
+                    <label>Start Time: </label>
+                    <input type="time" placeHolder="Start Time" onChange={(item)=>this.handleSubmit(item,"startTime")}></input><br></br>
+                    <label>End Time: </label>
+                    <input type="time" placeHolder="End Time" onChange={(item)=>this.handleSubmit(item,"endTime")}></input><br></br>
                 
-
                     <button onClick={()=>this.submit()}> Submit </button>
                     
                 </main>
