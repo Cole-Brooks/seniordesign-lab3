@@ -56,20 +56,28 @@ class CreateEvent extends React.Component {
 
          alert("Event " + obj.eventTitle + " has been created!");
 
-        //  const titleRef = db.ref("events");
-        //  const newTitleRef = titleRef.push();
-        //  newTitleRef.set({
-        //     title: obj.eventTitle
 
-        //  })
-
-        console.log("start time: " + obj.eventDate.slice(0,4));
+        console.log("start time: " + obj.eventDate.slice(8));
     
         firestore.collection("events").add({
             
+            end : 
+            [
+                parseInt(obj.eventDate.slice(0,4)),
+                parseInt(obj.eventDate.slice(5,7)),
+                parseInt(obj.eventDate.slice(8)),
+
+                parseInt(obj.startTime.slice(0,2)),
+                parseInt(obj.startTime.slice(3))
+            ],
             start : 
             [
-                parseInt(obj.eventDate.slice(0,4))
+                parseInt(obj.eventDate.slice(0,4)),
+                parseInt(obj.eventDate.slice(5,7)),
+                parseInt(obj.eventDate.slice(8)),
+
+                parseInt(obj.endTime.slice(0,2)),
+                parseInt(obj.endTime.slice(3))
             ],
             title : obj.eventTitle
 
