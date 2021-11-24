@@ -7,7 +7,7 @@ const Navbar = () => {
     if (isLoggedIn()){
        greeting = `Hello ${getUser().name}`
     }else{
-       greeting = "Your are not logged in"
+       greeting = "You are not logged in"
     }
     return (
         <div>
