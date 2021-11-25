@@ -11,7 +11,7 @@ const Header = ({ siteTitle }) => {
 
   const handleLogout = async() =>{
      await firebase.auth().signOut()
-     navigate("/login")
+     navigate("/")
   }
   return (
   <header
@@ -74,7 +74,7 @@ const Header = ({ siteTitle }) => {
         :(
         <div style={{alignItems:"center", display:"flex"}}>
           <p style={{ margin: 0 , marginRight:25, color: `white`}}>
-            Welcome!</p>
+            Welcome, {user.email}!</p>
           <p style={{ margin: 0 , marginRight:25}} onClick={handleLogout}>
             <Link
              to="#!"
