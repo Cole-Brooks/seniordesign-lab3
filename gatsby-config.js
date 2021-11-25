@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env`,
+});
+
 module.exports = {
   siteMetadata: {
     title: `Team Cash Calendar`,
@@ -34,5 +38,19 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    {
+       resolve: 'gatsby-plugin-firebase',
+       options: {
+           credentials: {
+             apiKey: process.env.apiKey,
+             authDomain: process.env.authDomain,
+             databaseURL: process.env.databaseURL,
+             projectId: process.env.projectId,
+             storageBucket: process.env.storageBucket,
+             messagingSenderId: process.env.messagingSenderId,
+             appId: process.env.appId
+           },
+       },
+    },
   ],
 }
