@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import { navigate } from "gatsby"
-import Layout from "../components/Layout"
+import Layout from "../components/layout"
 import Seo from "../components/seo"
 import {AuthContext} from "../context/auth"
 import firebase from 'gatsby-plugin-firebase'
