@@ -20,27 +20,6 @@ const getPolls = async () => {
  * @returns {array} returnArray : all the polls in the database, formated as they're needed for the calendar
  */
 const updatedPolls = async () =>{
-    // const promise = getPolls();
-    // let returnArray = [];
-    // promise.then(listOfPolls => {
-    //     listOfPolls.forEach(poll => {
-
-    //         const data = poll.data();
-
-    //         let e = {
-    //                 title: data['title'],
-    //                 desc: data['desc'],
-    //                 notes: data['notes'],
-    //                 voteInfo: data['voteInfo'],
-    //                 maxVotePerPerson: data['maxVotePerPerson'],
-    //                 deadLine: data['deadLine'].toDate(),
-    //                 status: data['status'],
-    //                 docId: poll.id // to be used for updates and deletes
-    //             };
-    //         returnArray.push(e);
-    //     }); 
-    // });
-    // return returnArray;
     return getPolls();
 }
 
@@ -54,7 +33,8 @@ const convertPoll = (poll) => {
         maxVotePerPerson: data['maxVotePerPerson'],
         deadLine: data['deadLine'].toDate(),
         status: data['status'],
-        docId: poll.id // to be used for updates and deletes
+        docId: poll.id, // to be used for updates and deletes
+        createrID: data['createrID']
     };
 }
 /**
@@ -65,7 +45,7 @@ const convertPoll = (poll) => {
  * @param {array} voteInfo : an array of options that users may vote for - [optionA, optionB, ... optionN]
  */
 async function writePoll(p){
-    const {title, desc, notes, maxVotePerPerson, voteInfo, deadLine, status} = p;
+    const {title, desc, notes, maxVotePerPerson, voteInfo, deadLine, status, createrID} = p;
     console.log("attempting to write to db");
     const optionsJson = {};
 
@@ -77,30 +57,29 @@ async function writePoll(p){
         voteInfo: optionsJson,
         maxVotePerPerson: maxVotePerPerson,
         deadLine: firebase.firestore.Timestamp.fromDate(deadLine),
-        status: status
+        status: status,
+        createrID: createrID
     };
-    firestore.collection("polls").add(data)
-        .then((docRef) => console.log("Document written with ID: ", docRef.id))
-        .catch((error) => {console.error("Error adding document");});
+    const result = await firestore.collection("polls").add(data);
+    return result;
 }
  
-/**
- * changePollVotes
- * @param {string} document_id : the document id of the poll you want to change
- * @param {map} updated_votes  : the new votes on the poll
- * @returns {number} : 0 on database error, 1 on successful update OR if no poll is found for specified document id
- */
-async function changePollVotes(document_id, updated_votes) {
-    console.log("attempting to change time on poll");
-    firestore.collection("polls").doc(document_id).update({
-        votes : updated_votes
-    }).then(() => {
-        console.log("poll votes successfully changed");
-        return 1;
-    }).catch((error) => {
-        console.error("database error occurred: ", error);
-        return 0;
+// /**
+//  * changePollVotes
+//  * @param {string} document_id : the document id of the poll you want to change
+//  * @param {map} updated_votes  : the new votes on the poll
+//  * @returns {number} : 0 on database error, 1 on successful update OR if no poll is found for specified document id
+//  */
+// async function changePoll(document_id, attributeName, newVal) {
+//     console.log("attempting to change time on poll");
+    
+// }
+
+async function changePoll(document_id, attributeName, newVal) {
+    const res = await firestore.collection("polls").doc(document_id).update({
+        [attributeName]: newVal,
     });
+    return res;
 }
  
 /**
@@ -119,4 +98,4 @@ async function deletePoll(document_id) {
     });
 }
  
-export { updatedPolls, writePoll, changePollVotes, deletePoll, convertPoll };
+export { updatedPolls, writePoll, changePoll, deletePoll, convertPoll };

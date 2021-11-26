@@ -23,8 +23,7 @@ const style = {
 };
 
 
-
-function VotePollButton(props) {
+function EditButton(props) {
     const { rawData } = props;
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -42,7 +41,7 @@ function VotePollButton(props) {
     
     return (
       <div>
-        <Button onClick={handleOpen}>vote</Button>
+        <Button onClick={handleOpen}>edit</Button>
         <Modal
           open={open}
           onClose={handleClose}
@@ -89,4 +88,4 @@ function VotePollButton(props) {
     );
 }
 
-export default VotePollButton;
+export default EditButton;
