@@ -7,7 +7,7 @@ import {
     Grid,
 } from '@mui/material';
 import IncDecButton from './IncDecButton';
-
+import { changePoll } from '../utils/polls';
 // https://stackoverflow.com/questions/1295584/most-efficient-way-to-create-a-zero-filled-javascript-array
 // https://stackoverflow.com/questions/38364400/index-inside-map-function
 const style = {
@@ -31,6 +31,24 @@ function VotePollButton(props) {
     const handleClose = () => setOpen(false);
     const [ votesLeft, setVotesLeft ] = useState(rawData.maxVotePerPerson);
     const [ myVotes, setMyVotes ] = useState(new Array(Object.keys(rawData.voteInfo).length).fill(0));
+    const handleSubmission = () => {
+        console.log(myVotes, rawData.voteInfo);
+        const newVoteInfo = {...rawData.voteInfo};
+        console.log(newVoteInfo);
+        Object.keys(rawData.voteInfo).map((key, idx) => {
+            newVoteInfo[key] = newVoteInfo[key] + myVotes[idx]
+        });
+        console.log(newVoteInfo);
+        changePoll(rawData.docId, "voteInfo", newVoteInfo)
+            .then(() => {
+                alert("submitted");
+                handleClose();
+            })
+            .catch(() => {
+                alert("Error voting!");
+            })
+    };
+
 
     const changeVotes = (idx, val) => {
         const updated = [...myVotes];
@@ -38,7 +56,7 @@ function VotePollButton(props) {
         setMyVotes(updated);
         let sum = updated.reduce((a, c) => (a + c), 0);
         setVotesLeft(rawData.maxVotePerPerson - sum);
-    }
+    };
     
     return (
       <div>
@@ -80,7 +98,7 @@ function VotePollButton(props) {
                     <Button onClick={() => {alert("cancelled"); handleClose();}}>Cancel</Button>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button onClick={() => {alert("submitted"); handleClose();}}>Submit</Button>
+                    <Button onClick={handleSubmission}>Submit</Button>
                 </Grid>
             </Grid>
           </Box>

@@ -5,7 +5,6 @@
 
 import {firestore} from "./firebase";
 import firebase from "firebase/app";
-
 // getPolls: returns unformatted data from database. Not very useful except as a helper to updatedPolls
 // NOTE: THIS IS A HELPER FUNCTION, DON'T EXPORT IT
 const getPolls = async () => {
@@ -74,12 +73,23 @@ async function writePoll(p){
 //     console.log("attempting to change time on poll");
     
 // }
-
+// https://stackoverflow.com/questions/48046672/update-a-field-in-an-object-in-firestore 
 async function changePoll(document_id, attributeName, newVal) {
-    const res = await firestore.collection("polls").doc(document_id).update({
-        [attributeName]: newVal,
-    });
-    return res;
+    if (attributeName === "status") {
+        const res = await firestore.collection("polls").doc(document_id).update({
+            [attributeName]: newVal,
+        });
+        return res;
+    } else if (attributeName === "voteInfo") {
+        console.log(attributeName);
+        console.log(newVal);
+        const res = await firestore.collection("polls").doc(document_id).update({
+            [attributeName]: newVal,
+        });
+        return res;
+    } else {
+        return false;
+    }
 }
  
 /**
