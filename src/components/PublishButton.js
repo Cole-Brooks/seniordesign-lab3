@@ -32,7 +32,7 @@ function PublishButton(props) {
             changePoll(props.rawData.docId, "status", "Published")
                 .then(() => {
                     alert("Published successfully");
-                    navigate("/");
+                    window.location.reload(false);
                 }).catch((error) => {
                     console.error("database error occurred: ", error);
                 });

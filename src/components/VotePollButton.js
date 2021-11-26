@@ -8,8 +8,10 @@ import {
 } from '@mui/material';
 import IncDecButton from './IncDecButton';
 import { changePoll } from '../utils/polls';
+import { navigate } from 'gatsby-link';
 // https://stackoverflow.com/questions/1295584/most-efficient-way-to-create-a-zero-filled-javascript-array
 // https://stackoverflow.com/questions/38364400/index-inside-map-function
+// https://upmostly.com/tutorials/how-to-refresh-a-page-or-component-in-react 
 const style = {
     position: 'absolute',
     top: '50%',
@@ -31,6 +33,23 @@ function VotePollButton(props) {
     const handleClose = () => setOpen(false);
     const [ votesLeft, setVotesLeft ] = useState(rawData.maxVotePerPerson);
     const [ myVotes, setMyVotes ] = useState(new Array(Object.keys(rawData.voteInfo).length).fill(0));
+
+    const printVotes = (voteInfo) => {
+        let printRes = "";
+        Object.keys(voteInfo).map(opt => {
+            printRes = printRes.concat(`${opt}: ${voteInfo[opt]} \n`);
+        })
+        return printRes;
+    };
+
+    const printChoice = (updated, old) => {
+        let printRes = "";
+        Object.keys(updated).map(opt => {
+            printRes = printRes.concat(`${opt}: ${updated[opt] - old[opt]} \n`);
+        })
+        return printRes;
+    }
+
     const handleSubmission = () => {
         console.log(myVotes, rawData.voteInfo);
         const newVoteInfo = {...rawData.voteInfo};
@@ -41,8 +60,19 @@ function VotePollButton(props) {
         console.log(newVoteInfo);
         changePoll(rawData.docId, "voteInfo", newVoteInfo)
             .then(() => {
-                alert("submitted");
+                // let votePrint = null;
+                let votePrint = printVotes(newVoteInfo);
+                let yourVotes = printChoice(newVoteInfo, rawData.voteInfo)
+                alert(`Vote Submitted! 
+                \n Title: ${rawData.title}
+                \n Description: ${rawData.desc}
+                \n DeadLine(local): ${rawData.deadLine}
+                \n Notes/Comments: ${rawData.notes}
+                \n You voted: \n ${yourVotes}
+                \n CurrentVotes: \n ${votePrint}
+                `);
                 handleClose();
+                window.location.reload(false);
             })
             .catch(() => {
                 alert("Error voting!");
