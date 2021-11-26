@@ -88,7 +88,10 @@ async function changePoll(document_id, attributeName, newVal) {
         });
         return res;
     } else {
-        return false;
+        const res = await firestore.collection("polls").doc(document_id).update(
+            newVal
+        );
+        return res;
     }
 }
  

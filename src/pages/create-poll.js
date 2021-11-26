@@ -75,7 +75,7 @@ const CreatePoll = () => {
     }
 
     const handleSubmission = e => {
-        e.preventDefault();
+        //e.preventDefault();
         console.log(typeof user.uid);
 
         const err = validate();
