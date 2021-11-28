@@ -1,9 +1,8 @@
 import PropTypes from "prop-types"
-import { Link } from "gatsby"
+import { Link , navigate} from "gatsby"
 import React, {useContext} from "react"
 import {AuthContext} from "../context/auth"
 import firebase from 'gatsby-plugin-firebase'
-import { navigate } from "gatsby"
 
 
 const Header = ({ siteTitle }) => {
@@ -11,7 +10,7 @@ const Header = ({ siteTitle }) => {
 
   const handleLogout = async() =>{
      await firebase.auth().signOut()
-     navigate("/")
+     await navigate("/")
   }
   return (
   <header
@@ -26,7 +25,6 @@ const Header = ({ siteTitle }) => {
         margin: `0 auto`,
         maxWidth: 1850,
         padding: `1.45rem 1.0875rem`,
-        padding: 10,
         justifyContent: "space-between",
         display: "flex",
 
