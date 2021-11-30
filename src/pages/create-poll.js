@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import React, {useContext, useEffect, useState} from 'react';
+import { navigate } from "gatsby";
+import Layout from "../components/layout";
+import Seo from "../components/seo";
 import { 
     Grid, 
     TextField, 
@@ -15,6 +16,7 @@ import Navbar from "../components/Navbar"
 import BasicDateTimePicker from '../components/datetimePicker';
 import { writePoll } from '../utils/polls';
 import timeConverter from '../utils/timeConverter';
+import { AuthContext } from '../context/auth';
 
 // https://stackoverflow.com/questions/1090815/how-to-clone-a-date-object 
 const CreatePoll = () => {
@@ -26,6 +28,7 @@ const CreatePoll = () => {
     const [ deadLine, setDeadLine ] = useState(new Date());
     const [ timeZone, setTimeZone ] = useState("");
     const [ vError, setVError ] = useState({});
+    const {user} = useContext(AuthContext);
 
     // only changes timezone label
     const changeTimeZone = e => {
@@ -72,10 +75,11 @@ const CreatePoll = () => {
     }
 
     const handleSubmission = e => {
-        e.preventDefault();
+        //e.preventDefault();
+        console.log(typeof user.uid);
 
         const err = validate();
-        console.log("Err is", err);
+        //console.log("Err is", err);
         if (Object.keys(err).length !== 0) {
             let errMsg = "";
             for (let key in err) {
@@ -85,9 +89,9 @@ const CreatePoll = () => {
             console.log("error");
             return;
         }
-        console.log("valid");
+        //console.log("valid");
         // const dl = [deadLine.getYear(), deadLine.getMonth() + 1, deadLine.getDate(), deadLine.getHours(), deadLine.getMinutes()];
-        
+
         const newPoll = {
             title: title,
             desc: desc,
@@ -95,10 +99,16 @@ const CreatePoll = () => {
             maxVotePerPerson: maxVotePerPerson,
             voteInfo: optArr.filter(opt => opt.length !== 0),
             deadLine: timeConverter(new Date(deadLine.getTime()), timeZone),
-            status: "unPublished"
+            status: "unPublished",
+            createrID: user.uid
         };
         console.log(newPoll);
-        writePoll(newPoll);
+        writePoll(newPoll)
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+                navigate("/");
+            })
+            .catch((error) => {alert("Error adding document");});
         // console.log(title);
         // console.log(desc);
         // console.log(notes);
