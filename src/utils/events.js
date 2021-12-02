@@ -57,14 +57,16 @@ const convertEvents = (e) => {
  * @param {string} string_title : the title of the new event
  * @param {array} start_time : the start time of the event. Format should be [<year>, <month>, <day>, <hour>, <minute>]
  * @param {array} end_time : the end time of the event. Format should be [<year>, <month>, <day>, <hour>, <minute>]
+ * @param {string} time_zone : the title of the new event
  * @param {array} attendees : an array of json attendants with fields for email and name for each attendant
  */
-async function writeEvent(string_title, start_time, end_time, attendees) {
+async function writeEvent(string_title, start_time, end_time, time_zone, attendees) {
     console.log("attempting to write to db");
     var data = {
         title: string_title,
         start: start_time,
         end: end_time,
+        timeZone: time_zone,
         attendants: attendees,
         allDay: false
     };
