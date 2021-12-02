@@ -116,8 +116,6 @@
 
 
 
-
-
 import React, {useEffect, useState} from 'react'
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -125,6 +123,8 @@ import {
     Grid, 
     TextField, 
     Button, 
+    IconButton,
+    RemoveIcon,
     Typography, 
     MenuItem, 
     FormControl, 
@@ -141,6 +141,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { writeEvent } from '../utils/events';
 import timeConverter from '../utils/timeConverter';
 import {firestore} from "../utils/firebase";
+import { makeStyles } from '@material-ui/core/styles';
+import { Container } from 'react-bootstrap';
 
 
 // import TimePicker from '@mui/lab/TimePicker';
@@ -148,6 +150,19 @@ import {firestore} from "../utils/firebase";
 
 // https://stackoverflow.com/questions/1090815/how-to-clone-a-date-object 
 const CreatePoll = () => {
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            '& .MuiTextField-root':{
+                margin: theme.spacing(1)
+            }
+        }
+    }))
+
+    const classes = useStyles();
+    console.log(inputFields);
+
+
     const [ maxVotePerPerson, setMaxVotePerPerson ] = useState(1);
     const [ title, setTitle ] = useState("");
     const [ desc, setDesc ] = useState("");
@@ -158,11 +173,19 @@ const CreatePoll = () => {
     const [ endTime, setEndTime ] = React.useState(new Date());
     const [ timeZone, setTimeZone ] = useState("CST");
     const [ vError, setVError ] = useState({});
+    const [ inputFields, setInputFields ] = useState([
+        { name: '', email: '' },
+    ])
    
     const handleChange = (newValue) => {
       setValue(newValue);
     };
 
+    const handleChangeInput = (index, event) =>{
+        const values = [...inputFields];
+        values[index][event.target.name] = event.target.value;
+        setInputFields(values);
+    }
 
     // only changes timezone label
     const changeTimeZone = e => {
@@ -197,7 +220,8 @@ const CreatePoll = () => {
             return;
         }
         console.log("valid");
-        // const dl = [deadLine.getYear(), deadLine.getMonth() + 1, deadLine.getDate(), deadLine.getHours(), deadLine.getMinutes()];
+        
+
         const temp =  JSON.stringify(date);
         const temp2 =  JSON.stringify(startTime);
         const temp3 =  JSON.stringify(startTime);
@@ -302,7 +326,36 @@ const CreatePoll = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Button onClick={handleSubmission}>submit</Button>
+                        Attendees
+                        <form className = {classes.root}>
+                        { inputFields.map((inputField, index) => (
+                            <div key= {index}>
+                                <TextField
+                                    name= "name"
+                                    label = "Name"
+                                    variant = "filled"
+                                    value = {inputField.name}
+                                    onChange = {event => handleChangeInput(index, event)}
+                                    />
+                                <TextField
+                                    name= "email"
+                                    label = "Email Address"
+                                    variant = "filled"
+                                    value = {inputField.email}
+                                    onChange = {event => handleChangeInput(index, event)}
+                                />
+                                <Button>
+                                    Remove
+                                </Button>
+                                <Button>
+                                    Add
+                                </Button>
+                            </div>
+                        ))}
+                        </form>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button variant = "contained" color = "primary" onClick={handleSubmission}>submit</Button>
                     </Grid>
                 </Grid>
             </Box>
