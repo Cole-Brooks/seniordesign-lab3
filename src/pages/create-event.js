@@ -160,7 +160,6 @@ const CreatePoll = () => {
     }))
 
     const classes = useStyles();
-    console.log(inputFields);
 
 
     const [ maxVotePerPerson, setMaxVotePerPerson ] = useState(1);
@@ -184,6 +183,20 @@ const CreatePoll = () => {
     const handleChangeInput = (index, event) =>{
         const values = [...inputFields];
         values[index][event.target.name] = event.target.value;
+        setInputFields(values);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
+
+    const handleAddFields = () => {
+        setInputFields([...inputFields, { name: '', email: '' }])
+    }
+
+    const handleRemoveFields = (index) => {
+        const values = [...inputFields];
+        values.splice(index, 1);
         setInputFields(values);
     }
 
@@ -221,7 +234,7 @@ const CreatePoll = () => {
         }
         console.log("valid");
         
-
+        console.log("InputFields", inputFields);
         const temp =  JSON.stringify(date);
         const temp2 =  JSON.stringify(startTime);
         const temp3 =  JSON.stringify(startTime);
@@ -247,7 +260,7 @@ const CreatePoll = () => {
                     parseInt(temp3.slice(3))
                 ],
             timeZone: timeZone,
-            //attendants: attendees,
+            attendants: inputFields, 
             allDay: false
         };    
       
@@ -327,7 +340,7 @@ const CreatePoll = () => {
                     </Grid>
                     <Grid item xs={12}>
                         Attendees
-                        <form className = {classes.root}>
+                        <form className = {classes.root} onSubmit = {handleSubmit}>
                         { inputFields.map((inputField, index) => (
                             <div key= {index}>
                                 <TextField
@@ -344,10 +357,10 @@ const CreatePoll = () => {
                                     value = {inputField.email}
                                     onChange = {event => handleChangeInput(index, event)}
                                 />
-                                <Button>
+                                <Button onClick={() => handleRemoveFields(index)}>
                                     Remove
                                 </Button>
-                                <Button>
+                                <Button onClick={() => handleAddFields()}>
                                     Add
                                 </Button>
                             </div>
