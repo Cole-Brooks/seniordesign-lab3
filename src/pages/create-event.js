@@ -292,16 +292,6 @@ const CreatePoll = () => {
                             placeholder="What's your favorate programming language?"
                         />
                     </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Notes/Comments"
-                            onChange={(e) => {
-                                setNotes(e.target.value);
-                            }}
-                            placeholder="Ex: ASAP"
-                        />
-                    </Grid>
                     <Grid item xs={6}>
                         Date
                         <DatePicker selected={date} onChange={(date) => setDate(date)} />
