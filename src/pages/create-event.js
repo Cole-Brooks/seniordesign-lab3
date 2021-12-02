@@ -154,25 +154,15 @@ const CreatePoll = () => {
     const [ notes, setNotes ] = useState("");
     const [ optArr, setOptArr ] = useState(["", "", "", ""]);
     const [ date, setDate ] = useState(new Date());
-    const [startTime, setValue] = React.useState(new Date('2014-08-18T00:00:00'));
-    const [ endTime, setEndTime ] = React.useState(new Date('2014-08-18T00:00:00'));
-    const [ timeZone, setTimeZone ] = useState("");
+    const [startTime, setValue] = React.useState(new Date());
+    const [ endTime, setEndTime ] = React.useState(new Date());
+    const [ timeZone, setTimeZone ] = useState("CST");
     const [ vError, setVError ] = useState({});
    
     const handleChange = (newValue) => {
       setValue(newValue);
     };
 
-    
-    
-    // const db = firestore.database();
-
-    // this.state = {
-    //     eventTitle:"",
-    //     eventDate:"",
-    //     startTime:"",
-    //     endTime:""
-    // }
 
     // only changes timezone label
     const changeTimeZone = e => {
@@ -180,44 +170,12 @@ const CreatePoll = () => {
         console.log(e.target.value);
     };
     
-    
-    // const changeDeadLine = (e) => {
-    //     e.setSeconds(0);
-    //     setDeadLine(e);
-    //     // console.log(e);
-    // }
-
-
-    // function onChange(time, timeString) {
-    //     console.log(time, timeString);
-    // }
-
-    // ReactDOM.render(
-    //     <TimePicker onChange={onChange} defaultOpenValue={moment('00:00:00', 'HH:mm:ss')} />,
-    //     mountNode,
-    // );
       
     const validate = () => {
         const errors = {};
         
         if (title.trim() === "") {
             errors.title = "Title needed!";
-        }
-        
-        if (optArr[0].trim() === "") {
-            errors.optArr1 = "First option needed!";
-        }
-
-        if (optArr[1].trim() === "") {
-            errors.optArr2 = "Second option needed!"
-        }
-        
-        if (maxVotePerPerson < 1 || maxVotePerPerson > 10) {
-            errors.maxVotePerPerson = "max vote per participant should be between 1 to 10"
-        }
-
-        if (timeZone === "" || timeConverter(new Date(date.getTime()), timeZone) <= new Date().getTime()) {
-            errors.deadLine = "Invalid deadLine!";
         }
 
         setVError(errors);
@@ -241,6 +199,8 @@ const CreatePoll = () => {
         console.log("valid");
         // const dl = [deadLine.getYear(), deadLine.getMonth() + 1, deadLine.getDate(), deadLine.getHours(), deadLine.getMinutes()];
         const temp =  JSON.stringify(date);
+        const temp2 =  JSON.stringify(startTime);
+        const temp3 =  JSON.stringify(startTime);
         const newEvent = {
 
             title: title,
@@ -248,34 +208,28 @@ const CreatePoll = () => {
                 [
                     parseInt(temp.slice(0,4)),
                     parseInt(temp.slice(5,7)),
-                    parseInt(temp.slice(8)),
+                    parseInt(temp.slice(8,10)),
         
-                    // parseInt(temp.slice(0,2)),
-                    // parseInt(temp.slice(3))
+                    parseInt(temp2.slice(0,2)),
+                    parseInt(temp2.slice(3))
                 ],
             end : 
                 [
                     parseInt(temp.slice(0,4)),
                     parseInt(temp.slice(5,7)),
-                    parseInt(temp.slice(8)),
+                    parseInt(temp.slice(8,10)),
             
-                    // parseInt(temp.slice(0,2)),
-                    // parseInt(temp.slice(3))
+                    parseInt(temp3.slice(0,2)),
+                    parseInt(temp3.slice(3))
                 ],
             timeZone: timeZone,
             //attendants: attendees,
             allDay: false
-        };
-        console.log(temp);
+        };    
       
-        console.log(newEvent);
+        console.log(timeZone);
         writeEvent(newEvent);
-        // console.log(title);
-        // console.log(desc);
-        // console.log(notes);
-        // console.log(maxVotePerPerson);
-        // console.log(optArr);
-        // console.log(dl);
+       
     }
 
     return (
@@ -310,62 +264,6 @@ const CreatePoll = () => {
                             }}
                             placeholder="Ex: ASAP"
                         />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Typography variant="string">
-                            Options
-                        </Typography>
-                    </Grid>
-                    <br />
-                    <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                            <TextField
-                                label="Option1"
-                                placeholder="Java"
-                                onChange={(e) => {
-                                    const curArr = [...optArr];
-                                    curArr[0] = e.target.value;
-                                    setOptArr(curArr);
-                                }}
-                                error={vError["optArr1"] !== undefined}
-                                helperText={vError["optArr1"] !== undefined ? vError["optArr1"] : null}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                label="Option2"
-                                placeholder="Python"
-                                onChange={(e) => {
-                                    const curArr = [...optArr];
-                                    curArr[1] = e.target.value;
-                                    setOptArr(curArr);
-                                }}
-                                error={vError["optArr2"] !== undefined}
-                                helperText={vError["optArr2"] !== undefined ? vError["optArr2"] : null}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                label="Option3"
-                                placeholder="JS"
-                                onChange={(e) => {
-                                    const curArr = [...optArr];
-                                    curArr[2] = e.target.value;
-                                    setOptArr(curArr);
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                label="Option4"
-                                placeholder="C++"
-                                onChange={(e) => {
-                                    const curArr = [...optArr];
-                                    curArr[3] = e.target.value;
-                                    setOptArr(curArr);
-                                }}
-                            />
-                        </Grid>
                     </Grid>
                     <Grid item xs={6}>
                         Date
