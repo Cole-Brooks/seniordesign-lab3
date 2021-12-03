@@ -50,9 +50,14 @@ const CashCalendar = () => {
         setSelected(event);
 
         let people = "";
-        event['attendants'].forEach(person => {
-            people = people + person['name'] + ", ";
-        });
+        if(event['attendants'] != null){
+            event['attendants'].forEach(person => {
+                people = people + person['name'] + ", ";
+            });
+        }
+        else{
+            people = "No Attendants"
+        }
 
         alert("Event: " + event['title'] + "\r\nAttendants: " + people);
         console.log(event['attendants']);
