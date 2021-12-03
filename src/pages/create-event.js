@@ -144,6 +144,10 @@ import {firestore} from "../utils/firebase";
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from 'react-bootstrap';
 
+// import {firestore} from "../utils/firebase"
+
+
+
 
 // import TimePicker from '@mui/lab/TimePicker';
   
@@ -175,6 +179,9 @@ const CreatePoll = () => {
     const [ inputFields, setInputFields ] = useState([
         { name: '', email: '' },
     ])
+
+
+    // const db = firestore.database();
    
     const handleChange = (newValue) => {
       setValue(newValue);
@@ -223,49 +230,90 @@ const CreatePoll = () => {
 
         const err = validate();
         console.log("Err is", err);
-        if (Object.keys(err).length !== 0) {
-            let errMsg = "";
-            for (let key in err) {
-                errMsg = errMsg.concat(err[key]).concat("\n");
-            }
-            alert(errMsg);
-            console.log("error");
-            return;
-        }
+        // if (Object.keys(err).length !== 0) {
+        //     let errMsg = "";
+        //     for (let key in err) {
+        //         errMsg = errMsg.concat(err[key]).concat("\n");
+        //     }
+        //     alert(errMsg);
+        //     console.log("error");
+        //     return;
+        // }
         console.log("valid");
         
         console.log("InputFields", inputFields);
         const temp =  JSON.stringify(date);
         const temp2 =  JSON.stringify(startTime);
         const temp3 =  JSON.stringify(startTime);
+        // console.log(temp);
+        // console.log(temp2);
+        // console.log(temp3);
+
+        // console.log((temp.slice(1,5)));
+        // console.log(temp.slice(6,8));
+        // console.log(temp.slice(9,11));
+        // console.log(temp2.slice(1,3));
+        // console.log(temp2.slice(4,6));
+
+
+        
+
+
         const newEvent = {
 
             title: title,
             start: 
                 [
-                    parseInt(temp.slice(0,4)),
-                    parseInt(temp.slice(5,7)),
-                    parseInt(temp.slice(8,10)),
+                    parseInt(temp.slice(1,5)),
+                    parseInt(temp.slice(6,8))-1,
+                    parseInt(temp.slice(9,11)),
         
-                    parseInt(temp2.slice(0,2)),
-                    parseInt(temp2.slice(3))
+                    parseInt(temp2.slice(1,3)),
+                    parseInt(temp2.slice(4,6))
                 ],
             end : 
                 [
-                    parseInt(temp.slice(0,4)),
-                    parseInt(temp.slice(5,7)),
-                    parseInt(temp.slice(8,10)),
-            
-                    parseInt(temp3.slice(0,2)),
-                    parseInt(temp3.slice(3))
+                    parseInt(temp.slice(1,5)),
+                    parseInt(temp.slice(6,8))-1,
+                    parseInt(temp.slice(9,11)),
+        
+                    parseInt(temp3.slice(1,3)),
+                    parseInt(temp3.slice(4,6))
                 ],
             timeZone: timeZone,
             attendants: inputFields, 
             allDay: false
-        };    
+        };  
+        
+        
+
+        firestore.collection("events").add({
+            title: title,
+            start: 
+                [
+                    parseInt(temp.slice(1,5)),
+                    parseInt(temp.slice(6,8))-1,
+                    parseInt(temp.slice(9,11)),
+        
+                    parseInt(temp2.slice(1,3)),
+                    parseInt(temp2.slice(4,6))
+                ],
+            end : 
+                [
+                    parseInt(temp.slice(1,5)),
+                    parseInt(temp.slice(6,8))-1,
+                    parseInt(temp.slice(9,11)),
+        
+                    parseInt(temp3.slice(1,3)),
+                    parseInt(temp3.slice(4,6))
+                ],
+            timeZone: timeZone,
+            attendants: inputFields, 
+            allDay: false
+        });
       
         console.log(timeZone);
-        writeEvent(newEvent);
+        // writeEvent(newEvent["title"], newEvent["start"], newEvent["end"], newEvent["timeZone"], newEvent["attendees"]);
        
     }
 
