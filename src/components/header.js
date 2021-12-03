@@ -1,9 +1,8 @@
 import PropTypes from "prop-types"
-import { Link } from "gatsby"
+import { Link, navigate } from "gatsby"
 import React, {useContext} from "react"
 import {AuthContext} from "../context/auth"
 import firebase from 'gatsby-plugin-firebase'
-import { navigate } from "gatsby"
 
 
 const Header = ({ siteTitle }) => {
@@ -26,7 +25,6 @@ const Header = ({ siteTitle }) => {
         margin: `0 auto`,
         maxWidth: 1850,
         padding: `1.45rem 1.0875rem`,
-        padding: 10,
         justifyContent: "space-between",
         display: "flex",
 
@@ -74,7 +72,7 @@ const Header = ({ siteTitle }) => {
         :(
         <div style={{alignItems:"center", display:"flex"}}>
           <p style={{ margin: 0 , marginRight:25, color: `white`}}>
-            Welcome, {user.email}!</p>
+            Logged in as {user.email}</p>
           <p style={{ margin: 0 , marginRight:25}} onClick={handleLogout}>
             <Link
              to="#!"
