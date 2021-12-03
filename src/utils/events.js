@@ -47,6 +47,7 @@ const convertEvents = (e) => {
         end: new Date(data['end'][0], data['end'][1], data['end'][2], data['end'][3]),
         allDay: data['allDay'],
         attendants: data['attendants'],
+        owner_uid: data['owner'],
         docId: e.id // to be used for updates and deletes
     };
 }
