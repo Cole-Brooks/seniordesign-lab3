@@ -72,7 +72,7 @@ const CreateEvent = () => {
     // only changes timezone label
     const changeTimeZone = e => {
         setTimeZone(e.target.value);
-        console.log(e.target.value);
+        // console.log(e.target.value);
     };
     
       
@@ -91,11 +91,11 @@ const CreateEvent = () => {
         e.preventDefault();
 
         const err = validate();
-        console.log("Err is", err);
+        // console.log("Err is", err);
        
-        console.log("valid");
+        // console.log("valid");
         
-        console.log("InputFields", inputFields);
+        // console.log("InputFields", inputFields);
         const temp =  JSON.stringify(date);
         const temp2 =  JSON.stringify(startTime);
         const temp3 =  JSON.stringify(startTime);        
@@ -133,7 +133,7 @@ const CreateEvent = () => {
 
         navigate("/");
       
-        console.log(timeZone);
+        // console.log(timeZone);
         
     }
 

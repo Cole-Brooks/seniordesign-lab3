@@ -12,24 +12,6 @@ import { AuthContext } from "../context/auth"
 import { navigate } from "gatsby";
 // import DatePicker from "react-datepicker";
 import { changeEventAttendants } from "../utils/events"
-import { 
-    Box, 
-    Button, 
-    Typography, 
-    Modal,
-    Grid,
-} from '@mui/material';
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -153,11 +135,6 @@ const CashCalendar = () => {
         endAccessor={"end"}
         style={{ height: 750, margin: "25px" }}
       />
-        {/* <Modal open={displayModal} onClose={() => setDisplayModal(false)}>
-          <Box sx={style}>
-            <p>{JSON.stringify(selected)}</p>
-          </Box>
-        </Modal> */}
     </div>
   )
 }
