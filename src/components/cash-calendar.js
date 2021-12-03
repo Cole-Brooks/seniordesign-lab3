@@ -11,24 +11,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 import { AuthContext } from "../context/auth"
 // import DatePicker from "react-datepicker";
 import { changeEventAttendants } from "../utils/events"
-import { 
-    Box, 
-    Button, 
-    Typography, 
-    Modal,
-    Grid,
-} from '@mui/material';
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -104,10 +86,10 @@ const CashCalendar = () => {
                 u_name = prompt("Name:", name_default)
                 u_email = prompt("Email:", email_default)
 
-                console.log(u_name)
-                console.log(u_email)
-                console.log("ATTENDANTS")
-                console.log(event["attendants"])
+                // console.log(u_name)
+                // console.log(u_email)
+                // console.log("ATTENDANTS")
+                // console.log(event["attendants"])
             }
         }
         if( ( u_name === name_default ) || ( u_name === "" ) || (u_name == null ) ||
@@ -115,8 +97,8 @@ const CashCalendar = () => {
                 alert("You need to enter a valid name and email to join this event!")
         }
         else{
-                console.log("Email = " + u_email)
-                console.log("Name = " + u_name)
+                // console.log("Email = " + u_email)
+                // console.log("Name = " + u_name)
                 if(event["attendants"] == null){
                     event["attendants"] = []
                 }
@@ -128,7 +110,7 @@ const CashCalendar = () => {
         alert("Event: " + event["title"] + "\r\nAttendants: " + people + "\nYou're attending this meeting!")
     }
 
-    console.log(event["attendants"])
+    // console.log(event["attendants"])
   }
 
   return (
@@ -141,11 +123,6 @@ const CashCalendar = () => {
         endAccessor={"end"}
         style={{ height: 750, margin: "25px" }}
       />
-        {/* <Modal open={displayModal} onClose={() => setDisplayModal(false)}>
-          <Box sx={style}>
-            <p>{JSON.stringify(selected)}</p>
-          </Box>
-        </Modal> */}
     </div>
   )
 }
