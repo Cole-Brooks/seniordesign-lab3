@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { 
@@ -18,10 +18,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import {firestore} from "../utils/firebase";
 import { makeStyles } from '@material-ui/core/styles';
 import { navigate } from "gatsby";
+import { AuthContext } from "../context/auth"
 
 
-const CreatePoll = () => {
-
+const CreateEvent = () => {
+    const { user } = useContext(AuthContext)
     const useStyles = makeStyles((theme) => ({
         root: {
             '& .MuiTextField-root':{
@@ -98,7 +99,11 @@ const CreatePoll = () => {
         const temp =  JSON.stringify(date);
         const temp2 =  JSON.stringify(startTime);
         const temp3 =  JSON.stringify(startTime);        
-        
+
+        let uid = "CREATED BY GUEST"
+        if(user != null){
+            uid = user.uid
+        }
 
         firestore.collection("events").add({
             title: title,
@@ -122,7 +127,8 @@ const CreatePoll = () => {
                 ],
             timeZone: timeZone,
             attendants: inputFields, 
-            allDay: false
+            allDay: false,
+            owner: uid
         });
 
         navigate("/");
@@ -229,4 +235,4 @@ const CreatePoll = () => {
     )
 }
 
-export default CreatePoll
+export default CreateEvent
