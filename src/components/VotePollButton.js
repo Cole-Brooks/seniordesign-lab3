@@ -51,13 +51,13 @@ function VotePollButton(props) {
     }
 
     const handleSubmission = () => {
-        console.log(myVotes, rawData.voteInfo);
+        // console.log(myVotes, rawData.voteInfo);
         const newVoteInfo = {...rawData.voteInfo};
-        console.log(newVoteInfo);
+        // console.log(newVoteInfo);
         Object.keys(rawData.voteInfo).map((key, idx) => {
             newVoteInfo[key] = newVoteInfo[key] + myVotes[idx]
         });
-        console.log(newVoteInfo);
+        // console.log(newVoteInfo);
         changePoll(rawData.docId, "voteInfo", newVoteInfo)
             .then(() => {
                 // let votePrint = null;
