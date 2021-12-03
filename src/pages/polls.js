@@ -69,7 +69,13 @@ function StickyHeadTable(props) {
         const actions = (
             <div>
                 <VotePollButton rawData={rawData}/>
-                {rawData.status === "unPublished" ? <PublishButton rawData={rawData}/> : null}
+                {
+                    user !== undefined && user.uid === rawData.createrID && rawData.status === "unPublished" 
+                    ? 
+                    <PublishButton rawData={rawData}/>
+                    : 
+                    null
+                }
                 {
                     user !== undefined && user.uid === rawData.createrID 
                     ? 
