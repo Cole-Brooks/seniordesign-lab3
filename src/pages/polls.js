@@ -260,7 +260,7 @@ const EditPollPane = (props) => {
             createrID: editPoll.createrID
         };
         console.log(newPoll);
-        changePoll(editPoll.docId, "all", newPoll)
+        changePoll(editPoll.docId, newPoll)
             .then(() => {
                 console.log("Document changed with ID: ", editPoll.docId);
                 setEditPoll(null);

@@ -74,25 +74,25 @@ async function writePoll(p){
     
 // }
 // https://stackoverflow.com/questions/48046672/update-a-field-in-an-object-in-firestore 
-async function changePoll(document_id, attributeName, newVal) {
-    if (attributeName === "status") {
-        const res = await firestore.collection("polls").doc(document_id).update({
-            [attributeName]: newVal,
-        });
-        return res;
-    } else if (attributeName === "voteInfo") {
-        console.log(attributeName);
-        console.log(newVal);
-        const res = await firestore.collection("polls").doc(document_id).update({
-            [attributeName]: newVal,
-        });
-        return res;
-    } else {
-        const res = await firestore.collection("polls").doc(document_id).update(
-            newVal
-        );
-        return res;
-    }
+async function changePoll(document_id, newVal) {
+    const {title, desc, notes, maxVotePerPerson, voteInfo, deadLine, status, createrID} = newVal;
+    console.log("attempting to change poll to db");
+    const optionsJson = {};
+    voteInfo.forEach(opt => (optionsJson[opt] = 0));
+    const data = {
+        title: title,
+        desc: desc,
+        notes: notes,
+        voteInfo: optionsJson,
+        maxVotePerPerson: maxVotePerPerson,
+        deadLine: firebase.firestore.Timestamp.fromDate(deadLine),
+        status: status,
+        createrID: createrID
+    };
+    const res = await firestore.collection("polls").doc(document_id).update(
+        data
+    );
+    return res;
 }
  
 /**
