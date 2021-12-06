@@ -68,7 +68,14 @@ function StickyHeadTable(props) {
         const {deadLine: dl} = rawData;
         const actions = (
             <div>
-                <VotePollButton rawData={rawData}/>
+                {
+                    user !== undefined && rawData.status === "Published"
+                    ?
+                    <VotePollButton rawData={rawData}/>
+                    :
+                    null
+                }
+                
                 {
                     user !== undefined && user.uid === rawData.createrID && rawData.status === "unPublished" 
                     ? 
@@ -260,7 +267,7 @@ const EditPollPane = (props) => {
             createrID: editPoll.createrID
         };
         console.log(newPoll);
-        changePoll(editPoll.docId, newPoll)
+        changePoll(editPoll.docId, "all", newPoll)
             .then(() => {
                 console.log("Document changed with ID: ", editPoll.docId);
                 setEditPoll(null);
