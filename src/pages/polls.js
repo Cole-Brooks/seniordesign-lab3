@@ -68,7 +68,14 @@ function StickyHeadTable(props) {
         const {deadLine: dl} = rawData;
         const actions = (
             <div>
-                <VotePollButton rawData={rawData}/>
+                {
+                    user !== undefined && rawData.status === "Published"
+                    ?
+                    <VotePollButton rawData={rawData}/>
+                    :
+                    null
+                }
+                
                 {
                     user !== undefined && user.uid === rawData.createrID && rawData.status === "unPublished" 
                     ? 

@@ -88,8 +88,22 @@ async function changePoll(document_id, attributeName, newVal) {
         });
         return res;
     } else {
+        const {title, desc, notes, maxVotePerPerson, voteInfo, deadLine, status, createrID} = newVal;
+        console.log("attempting to change poll to db");
+        const optionsJson = {};
+        voteInfo.forEach(opt => (optionsJson[opt] = 0));
+        const data = {
+            title: title,
+            desc: desc,
+            notes: notes,
+            voteInfo: optionsJson,
+            maxVotePerPerson: maxVotePerPerson,
+            deadLine: firebase.firestore.Timestamp.fromDate(deadLine),
+            status: status,
+            createrID: createrID
+        };
         const res = await firestore.collection("polls").doc(document_id).update(
-            newVal
+            data
         );
         return res;
     }
